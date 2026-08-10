@@ -1,0 +1,126 @@
+<section id="om" class="about" aria-labelledby="about-title">
+  <div class="container about-grid">
+    <div class="about-heading">
+      <p class="eyebrow">Om oss</p>
+      <h2 id="about-title">Två perspektiv.<br />Ett personligt företag.</h2>
+    </div>
+
+    <div class="about-copy">
+      <p class="lead">
+        Engströms Konsulter samlar Görans inriktning inom väg och trafik med Annikas erbjudande inom kontorsservice.
+      </p>
+      <p>
+        Verksamheten byggs kring nära dialog, praktisk nytta och ett ansvarstagande arbetssätt. Det ska vara enkelt att förstå vem du arbetar med, vad uppdraget gäller och vart arbetet är på väg.
+      </p>
+      <div class="people">
+        <div><span>GE</span><p><strong>Göran Engström</strong>Väg- och trafikkonsult</p></div>
+        <div><span>AE</span><p><strong>Annika Engström</strong>Kontorsservice</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about {
+    position: relative;
+    padding: var(--section-space) 0;
+    overflow: hidden;
+    background: var(--color-dark-soft);
+    color: var(--color-bg);
+  }
+
+  .about-grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(20rem, 1.1fr);
+    gap: clamp(4rem, 8vw, 8rem);
+  }
+
+  .about .eyebrow {
+    color: var(--color-light-muted);
+  }
+
+  h2 {
+    max-width: 15ch;
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: var(--step-3);
+    font-weight: 700;
+    letter-spacing: -0.022em;
+    line-height: 1.15;
+  }
+
+  .about-copy {
+    align-self: end;
+  }
+
+  .about-copy > p {
+    margin: 0;
+    color: var(--color-light-muted);
+  }
+
+  .about-copy .lead {
+    margin-bottom: 1.6rem;
+    color: var(--color-bg);
+    font-size: var(--step-1);
+    line-height: 1.6;
+  }
+
+  .people {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    margin-top: 3rem;
+    background: transparent;
+    border-top: 1px solid var(--color-border-dark);
+  }
+
+  .people > div {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.15rem 0;
+    border-bottom: 1px solid var(--color-border-dark);
+    background: transparent;
+  }
+
+  .people span {
+    display: grid;
+    flex: 0 0 auto;
+    width: 2.8rem;
+    height: 2.8rem;
+    place-items: center;
+    margin-bottom: 0;
+    border: 1px solid var(--color-accent);
+    color: var(--color-accent);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+
+  .people p,
+  .people strong {
+    display: block;
+    margin: 0;
+  }
+
+  .people p {
+    color: var(--color-light-muted);
+    font-size: 0.95rem;
+  }
+
+  .people strong {
+    margin-bottom: 0.2rem;
+    color: var(--color-bg);
+    font-size: 1.05rem;
+  }
+
+  @media (max-width: 800px) {
+    .about-grid {
+      grid-template-columns: 1fr;
+      gap: 3.5rem;
+    }
+  }
+
+</style>

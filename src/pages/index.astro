@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import Intro from '../components/Intro.astro';
+import Services from '../components/Services.astro';
+import Approach from '../components/Approach.astro';
+import About from '../components/About.astro';
+import Contact from '../components/Contact.astro';
+import Footer from '../components/Footer.astro';
+import BackgroundRoad from '../components/BackgroundRoad.astro';
+---
+
+<BaseLayout
+  title="Engströms Konsulter | Väg, trafik & kontorsservice"
+  description="Personlig konsultkraft inom väg och trafik samt flexibel kontorsservice. Engströms Konsulter hjälper verksamheter framåt."
+>
+  <Header />
+  <main id="main" class="site-main">
+    <Hero />
+    <Intro />
+    <Services />
+    <Approach />
+    <About />
+    <Contact />
+    <BackgroundRoad />
+  </main>
+  <Footer />
+</BaseLayout>

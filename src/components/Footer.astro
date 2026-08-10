@@ -1,0 +1,81 @@
+---
+import BrandLogo from './BrandLogo.astro';
+---
+
+<footer>
+  <div class="container footer-main">
+    <div>
+      <BrandLogo class="footer-logo" />
+      <p>Väg & trafik<br />Kontorsservice</p>
+    </div>
+    <a href="#top">Till toppen <span aria-hidden="true">↑</span></a>
+  </div>
+  <div class="container footer-meta">
+    <p>© {new Date().getFullYear()} Engströms Konsulter</p>
+    <p>Kunddemo · Namn och kontaktuppgifter slutbekräftas före publicering</p>
+  </div>
+</footer>
+
+<style>
+  footer {
+    padding: 4.5rem 0 1.75rem;
+    background: var(--color-dark);
+    color: var(--color-bg);
+  }
+
+  .footer-main {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    gap: 2rem;
+    padding-bottom: 4.5rem;
+  }
+
+  .footer-main p {
+    margin: 1.5rem 0 0;
+    color: var(--color-light-muted);
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+
+  .footer-main > a {
+    display: inline-flex;
+    gap: 1rem;
+    padding: 0.65rem 0;
+    border-bottom: 1px solid var(--color-border-dark);
+    color: var(--color-light-muted);
+    font-size: 0.88rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-decoration: none;
+  }
+
+  .footer-main > a span {
+    color: var(--color-accent);
+  }
+
+  .footer-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border-dark);
+  }
+
+  .footer-meta p {
+    margin: 0;
+    color: rgba(247, 246, 242, 0.45);
+    font-size: 0.8rem;
+  }
+
+  @media (max-width: 650px) {
+    .footer-main,
+    .footer-meta {
+      flex-direction: column;
+    }
+
+    .footer-meta {
+      gap: 0.45rem;
+    }
+  }
+</style>

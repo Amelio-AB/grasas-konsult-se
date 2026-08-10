@@ -1,0 +1,172 @@
+---
+const steps = [
+  {
+    number: '01',
+    title: 'Vi börjar i behovet',
+    text: 'Uppgiften och förutsättningarna får styra. Det gör samarbetet tydligare från start.',
+  },
+  {
+    number: '02',
+    title: 'Vi arbetar nära',
+    text: 'Personlig kontakt, raka besked och ett praktiskt fokus genom hela uppdraget.',
+  },
+  {
+    number: '03',
+    title: 'Vi för arbetet framåt',
+    text: 'Målet är en lösning som fungerar i verkligheten och skapar trygghet i nästa steg.',
+  },
+];
+---
+
+<section id="arbetssatt" class="approach" aria-labelledby="approach-title">
+  <div class="container">
+    <div class="approach-heading">
+      <div>
+        <p class="eyebrow">Arbetssätt</p>
+        <h2 id="approach-title" class="section-heading">Tydligt från start till nästa steg.</h2>
+      </div>
+      <div class="direction-mark" aria-hidden="true"><i></i><i></i></div>
+    </div>
+
+    <ol>
+      {steps.map((step) => (
+        <li>
+          <span>{step.number}</span>
+          <h3>{step.title}</h3>
+          <p>{step.text}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .approach {
+    padding: var(--section-space) 0;
+    background: var(--color-bg);
+  }
+
+  .approach-heading {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 3rem;
+  }
+
+  .direction-mark {
+    position: relative;
+    width: clamp(6rem, 10vw, 8rem);
+    height: clamp(4rem, 7vw, 5.5rem);
+    opacity: 0.7;
+  }
+
+  .direction-mark::before,
+  .direction-mark::after {
+    position: absolute;
+    right: 0;
+    width: 72%;
+    height: 0.35rem;
+    background: var(--color-accent);
+    content: '';
+    transform-origin: right;
+  }
+
+  .direction-mark::before {
+    top: 47%;
+    transform: rotate(34deg);
+  }
+
+  .direction-mark::after {
+    bottom: 47%;
+    transform: rotate(-34deg);
+  }
+
+  .direction-mark i {
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: 50%;
+    height: 1px;
+    background: var(--color-border);
+  }
+
+  .direction-mark i:last-child {
+    top: calc(50% + 1.4rem);
+  }
+
+  ol {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin: clamp(3.5rem, 6vw, 5rem) 0 0;
+    padding: 0;
+    border-top: 1px solid var(--color-border);
+    list-style: none;
+  }
+
+  li {
+    min-height: 14rem;
+    padding: 2rem clamp(1.5rem, 3vw, 3rem) 2rem 0;
+    border-right: 1px solid var(--color-border);
+  }
+
+  li + li {
+    padding-left: clamp(1.5rem, 3vw, 3rem);
+  }
+
+  li:last-child {
+    border-right: 0;
+  }
+
+  li > span {
+    color: var(--color-accent-hover);
+    font-size: var(--step--1);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+  }
+
+  h3 {
+    margin: 3rem 0 1rem;
+    font-family: var(--font-display);
+    font-size: var(--step-2);
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    line-height: 1.25;
+  }
+
+  li p {
+    max-width: 24rem;
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 1rem;
+    line-height: 1.65;
+  }
+
+  @media (max-width: 700px) {
+    .direction-mark {
+      display: none;
+    }
+
+    ol {
+      grid-template-columns: 1fr;
+      margin-top: 3.5rem;
+    }
+
+    li,
+    li + li {
+      display: grid;
+      min-height: auto;
+      grid-template-columns: 2.5rem 1fr;
+      padding: 1.75rem 0;
+      border-right: 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    li > span {
+      grid-row: span 2;
+    }
+
+    h3 {
+      margin: 0 0 0.65rem;
+    }
+  }
+</style>

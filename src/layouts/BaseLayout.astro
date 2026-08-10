@@ -1,0 +1,27 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="sv">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#0d1419" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><rect width=%2264%22 height=%2264%22 fill=%22%230d1419%22/><path d=%22M38 12h12L31 32l19 20H38L19 32z%22 fill=%22%23f2b300%22/></svg>" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Hoppa till innehållet</a>
+    <slot />
+  </body>
+</html>

@@ -1,0 +1,79 @@
+<section class="intro" aria-labelledby="intro-title">
+  <div class="container intro-grid">
+    <p class="eyebrow">Engströms Konsulter</p>
+    <div>
+      <h2 id="intro-title">Nära verksamheten.<br />Tydlig i uppgiften.</h2>
+      <div class="intro-copy">
+        <p class="lead">
+          Vi bidrar där praktisk förståelse, ansvar och ett personligt arbetssätt gör skillnad.
+        </p>
+        <p>
+          Oavsett om uppdraget rör en vägsträcka, en trafikfråga eller tillfällig förstärkning på kontoret är målet detsamma: att skapa trygghet och få vardagen att fungera.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .intro {
+    padding: var(--section-space) 0;
+  }
+
+  .intro-grid {
+    display: grid;
+    grid-template-columns: minmax(10rem, 0.55fr) minmax(0, 1.45fr);
+    gap: clamp(2rem, 7vw, 7rem);
+  }
+
+  .eyebrow {
+    align-self: start;
+  }
+
+  h2 {
+    max-width: 16ch;
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: var(--step-3);
+    font-weight: 700;
+    letter-spacing: -0.022em;
+    line-height: 1.15;
+  }
+
+  .intro-copy {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(2rem, 4vw, 4rem);
+    max-width: 55rem;
+    margin-top: clamp(2.5rem, 4vw, 3.75rem);
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .intro-copy p {
+    margin: 0;
+    color: var(--color-text-muted);
+  }
+
+  .intro-copy .lead {
+    color: var(--color-text);
+    font-size: var(--step-1);
+    line-height: 1.6;
+  }
+
+  @media (max-width: 760px) {
+    .intro-grid,
+    .intro-copy {
+      grid-template-columns: 1fr;
+    }
+
+    .intro-grid,
+    .intro-copy {
+      gap: 1.75rem;
+    }
+
+    .intro-copy {
+      margin-top: 2.25rem;
+    }
+  }
+</style>

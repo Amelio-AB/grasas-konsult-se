@@ -1,0 +1,33 @@
+:root {
+  --color-bg: #f5f1e8;
+  --color-surface: #fffdf9;
+  --color-dark: #20272b;
+  --color-dark-soft: #293136;
+  --color-dark-raised: #323b40;
+  --color-text: #262626;
+  --color-text-muted: #65635f;
+  --color-accent: #f2b300;
+  --color-accent-hover: #d39d00;
+  --color-border: rgba(38, 38, 38, 0.16);
+  --color-border-dark: rgba(255, 253, 249, 0.18);
+  --color-light-muted: rgba(255, 253, 249, 0.72);
+
+  --font-sans: "Source Sans 3", "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Merriweather", Georgia, serif;
+
+  --container: 1240px;
+  --container-narrow: 1040px;
+  --container-text: 760px;
+  --gutter: clamp(1.25rem, 4vw, 3.75rem);
+  --section-space: clamp(5rem, 8vw, 8rem);
+
+  --step--1: clamp(0.82rem, 0.79rem + 0.12vw, 0.9rem);
+  --step-0: clamp(1.05rem, 1.02rem + 0.14vw, 1.125rem);
+  --step-1: clamp(1.2rem, 1.13rem + 0.3vw, 1.4rem);
+  --step-2: clamp(1.5rem, 1.32rem + 0.75vw, 2rem);
+  --step-3: clamp(2.15rem, 1.68rem + 2vw, 3.5rem);
+  --step-4: clamp(3rem, 2.15rem + 3.6vw, 5.5rem);
+
+  --transition-fast: 180ms ease;
+  --transition-base: 300ms ease;
+}

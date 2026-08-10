@@ -1,0 +1,72 @@
+<svg
+  class="service-illustration"
+  viewBox="0 0 300 150"
+  role="presentation"
+  aria-hidden="true"
+  focusable="false"
+>
+  <rect class="office-main" x="24" y="35" width="213" height="91" rx="4" />
+
+  <path
+    class="office-detail"
+    d="M43 57h19m10 0h19m10 0h19m10 0h19m10 0h19m10 0h19M43 76h25m10 0h19m10 0h19m10 0h19m10 0h26M43 95h19m10 0h19m10 0h19m10 0h19m10 0h29M81 113h96"
+  />
+
+  <path class="pencil" d="M190 124l7-23l59-66l13 12l-59 66z" />
+  <path class="pencil-detail" d="M197 101l13 12M251 41l13 12M190 124l10-4" />
+  <path class="pencil-accent" d="M251 41l13 12" />
+</svg>
+
+<style>
+  .service-illustration {
+    display: block;
+    width: 100%;
+    max-width: 18rem;
+    height: auto;
+    margin-top: clamp(2rem, 3vw, 2.75rem);
+    color: var(--color-text);
+  }
+
+  .office-main,
+  .office-detail,
+  .pencil,
+  .pencil-detail,
+  .pencil-accent {
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .office-main,
+  .pencil {
+    stroke: currentColor;
+    stroke-width: 2;
+  }
+
+  .office-detail,
+  .pencil-detail {
+    stroke: var(--color-text-muted);
+    stroke-width: 1.2;
+    opacity: 0.55;
+  }
+
+  .pencil-accent {
+    stroke: var(--color-accent);
+    stroke-width: 2.5;
+  }
+
+  @media (max-width: 820px) {
+    .service-illustration {
+      max-width: 16rem;
+      margin-top: 1.75rem;
+    }
+  }
+
+  @media (max-width: 430px) {
+    .service-illustration {
+      max-width: 14rem;
+      margin-top: 1.5rem;
+    }
+  }
+</style>

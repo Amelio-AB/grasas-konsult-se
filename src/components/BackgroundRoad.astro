@@ -1,0 +1,142 @@
+<div class="background-road" aria-hidden="true">
+  <svg viewBox="0 0 1440 9000" preserveAspectRatio="none" focusable="false">
+    <defs>
+      <linearGradient id="road-surface-gradient" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#fffdf9" stop-opacity="0.13" />
+        <stop offset="16%" stop-color="#fffdf9" stop-opacity="0.08" />
+        <stop offset="21%" stop-color="#20272b" stop-opacity="0.04" />
+        <stop offset="68%" stop-color="#20272b" stop-opacity="0.045" />
+        <stop offset="72%" stop-color="#fffdf9" stop-opacity="0.04" />
+        <stop offset="84%" stop-color="#fffdf9" stop-opacity="0.04" />
+        <stop offset="88%" stop-color="#20272b" stop-opacity="0.035" />
+        <stop offset="100%" stop-color="#20272b" stop-opacity="0.02" />
+      </linearGradient>
+
+      <linearGradient id="road-center-gradient" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#fffdf9" stop-opacity="0.28" />
+        <stop offset="17%" stop-color="#fffdf9" stop-opacity="0.16" />
+        <stop offset="21%" stop-color="#4d4b47" stop-opacity="0.11" />
+        <stop offset="68%" stop-color="#4d4b47" stop-opacity="0.09" />
+        <stop offset="72%" stop-color="#fffdf9" stop-opacity="0.1" />
+        <stop offset="84%" stop-color="#fffdf9" stop-opacity="0.08" />
+        <stop offset="88%" stop-color="#4d4b47" stop-opacity="0.08" />
+        <stop offset="100%" stop-color="#4d4b47" stop-opacity="0.03" />
+      </linearGradient>
+    </defs>
+
+    <g class="road-desktop">
+      <path
+        class="road-surface"
+        d="M 1240 -140 C 1030 220 1110 560 980 930 C 850 1300 690 1510 760 1880 C 830 2240 980 2410 900 2710 C 820 3000 620 3070 620 3260 C 720 3390 970 3450 990 3720 C 1020 4090 910 4430 770 4750 C 620 5090 690 5470 820 5780 C 970 6140 970 6430 880 6750 C 760 7150 590 7390 650 7760 C 720 8190 880 8420 780 9140"
+      />
+      <path
+        class="road-centerline"
+        d="M 1240 -140 C 1030 220 1110 560 980 930 C 850 1300 690 1510 760 1880 C 830 2240 980 2410 900 2710 C 820 3000 620 3070 620 3260 C 720 3390 970 3450 990 3720 C 1020 4090 910 4430 770 4750 C 620 5090 690 5470 820 5780 C 970 6140 970 6430 880 6750 C 760 7150 590 7390 650 7760 C 720 8190 880 8420 780 9140"
+      />
+      <path
+        class="road-accent"
+        d="M 1240 -80 C 1080 210 1110 500 1005 820"
+      />
+    </g>
+
+    <g class="road-mobile">
+      <path
+        class="road-surface"
+        d="M 1330 -120 C 1090 620 1270 1260 1120 1980 C 990 2610 1210 3230 1070 3910 C 940 4590 1170 5180 1050 5820 C 940 6490 1160 7110 1030 7730 C 940 8190 1030 8640 960 9140"
+      />
+      <path
+        class="road-centerline"
+        d="M 1330 -120 C 1090 620 1270 1260 1120 1980 C 990 2610 1210 3230 1070 3910 C 940 4590 1170 5180 1050 5820 C 940 6490 1160 7110 1030 7730 C 940 8190 1030 8640 960 9140"
+      />
+      <path class="road-accent" d="M 1330 -80 C 1160 440 1200 820 1140 1120" />
+    </g>
+  </svg>
+</div>
+
+<style>
+  .background-road {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .road-surface,
+  .road-centerline,
+  .road-accent {
+    fill: none;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .road-surface {
+    stroke: url('#road-surface-gradient');
+    stroke-width: clamp(58px, 7vw, 104px);
+    stroke-linecap: round;
+  }
+
+  .road-centerline {
+    stroke: url('#road-center-gradient');
+    stroke-width: 1.25px;
+    stroke-dasharray: 12 26;
+    stroke-linecap: round;
+  }
+
+  .road-accent {
+    stroke: var(--color-accent);
+    stroke-width: 1.5px;
+    stroke-dasharray: 2 9;
+    stroke-linecap: round;
+    opacity: 0.42;
+  }
+
+  .road-mobile {
+    display: none;
+  }
+
+  @media (max-width: 800px) {
+    .background-road {
+      opacity: 0.62;
+    }
+
+    .road-desktop {
+      display: none;
+    }
+
+    .road-mobile {
+      display: block;
+    }
+
+    .road-surface {
+      stroke-width: clamp(34px, 10vw, 52px);
+    }
+
+    .road-centerline {
+      stroke-width: 1px;
+      stroke-dasharray: 8 25;
+    }
+
+    .road-accent {
+      opacity: 0.28;
+    }
+  }
+
+  @media (max-width: 430px) {
+    .background-road {
+      opacity: 0.46;
+    }
+
+    .road-surface {
+      stroke-width: 32px;
+    }
+
+    .road-centerline {
+      stroke-dasharray: 6 28;
+    }
+  }
+</style>
