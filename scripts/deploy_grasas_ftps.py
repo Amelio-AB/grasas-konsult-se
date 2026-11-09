@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Publicera endast Gräsås logotyper till Inleed via krypterad FTPS.
+"""Publicera godkänd Gräsås startsida, logotyper och SEO-filer via FTPS.
 
 Filerna listas uttryckligen. Vi tar aldrig bort andra filer på webbhotellet.
 """
@@ -23,9 +23,13 @@ ASSET_NAMES = (
     "grasas-symbol-svart.svg",
     "grasas-symbol-svart.webp",
 )
-# Skydda redigeringar som gjorts direkt i Inleeds filhanterare.
-# Den här FTP-rutinen får ENDAST ladda upp logotypfiler, ALDRIG index.html.
-UPLOADS = tuple((SITE / "images" / name, f"images/{name}") for name in ASSET_NAMES)
+# Webbplatsens nu godkända huvudversion finns i GitHub.
+# Ladda upp bilder och SEO-filer före index.html, utan att radera serverfiler.
+UPLOADS = tuple((SITE / "images" / name, f"images/{name}") for name in ASSET_NAMES) + (
+    (SITE / "robots.txt", "robots.txt"),
+    (SITE / "sitemap.xml", "sitemap.xml"),
+    (SITE / "index.html", "index.html"),
+)
 
 
 def required_secret(name: str) -> str:
@@ -115,6 +119,20 @@ def main() -> None:
         if not local_file.is_file():
             raise SystemExit(f"Kan inte publicera: saknar {local_file}")
 
+    # Förhindra oavsiktlig återpublicering av en sökmotorblockerad demosida.
+    html = (SITE / "index.html").read_text(encoding="utf-8")
+    robots = (SITE / "robots.txt").read_text(encoding="utf-8")
+    sitemap = (SITE / "sitemap.xml").read_text(encoding="utf-8")
+    if (
+        "noindex" in html.lower()
+        or 'rel="canonical" href="https://grasaskonsult.se/"' not in html
+        or "tel:+46761181689" not in html
+        or "mailto:goran@grasaskonsult.se" not in html
+        or "Disallow: /" in robots
+        or "https://grasaskonsult.se/" not in sitemap
+    ):
+        raise SystemExit("SEO- eller kontaktkontroll misslyckades. Ingen fil laddades upp.")
+
     with FTP_TLS(context=ssl.create_default_context(), timeout=40) as ftp:
         ftp.connect(host=host, port=21)
         ftp.login(user=username, passwd=password)
@@ -123,7 +141,7 @@ def main() -> None:
         web_root = choose_web_root(ftp)
         ensure_image_folder(ftp, web_root)
 
-        # Ladda upp enbart bilder; index.html på servern ska lämnas orörd.
+        # Ladda upp bilder och SEO-filer först, själva startsidan sist.
         for local_file, remote_path in UPLOADS:
             upload_with_curl(host, username, password, web_root, local_file, remote_path)
 
