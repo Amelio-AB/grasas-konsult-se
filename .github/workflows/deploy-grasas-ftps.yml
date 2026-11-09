@@ -27,10 +27,24 @@ jobs:
       - name: Hämta webbplatsfilen
         uses: actions/checkout@v4
 
+      - name: Kontrollera att rätt webbhotell används
+        env:
+          FTP_HOST: ${{ secrets.FTP_HOST }}
+          FTP_USERNAME: ${{ secrets.FTP_USENAME || secrets.FTP_USERNAME }}
+        run: |
+          if [[ "$FTP_HOST" != "ns14.inleed.net" ]]; then
+            echo "::error::FTP_HOST pekar inte på Görans nya server ns14.inleed.net. Ingen fil överfördes."
+            exit 1
+          fi
+          if [[ "$FTP_USERNAME" != "ftp@xn--grsskonsult-m8ao.se" ]]; then
+            echo "::error::FTP-användarnamnet matchar inte Görans konto. Ingen fil överfördes."
+            exit 1
+          fi
+
       - name: Publicera krypterat via Inleed FTPS
         env:
           FTP_HOST: ${{ secrets.FTP_HOST }}
-          FTP_USERNAME: ${{ secrets.FTP_username }}
+          FTP_USERNAME: ${{ secrets.FTP_USENAME || secrets.FTP_USERNAME }}
           FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
           FTP_REMOTE_DIR: ${{ vars.FTP_REMOTE_DIR }}
         run: python3 scripts/deploy_grasas_ftps.py
