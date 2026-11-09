@@ -1,8 +1,17 @@
-name: Manuell Gräsås FTPS - logotypfiler
+name: Publicera Gräsås webbplats via FTPS
 
-# OBS: Manuell publicering tills innehållet i DirectAdmin har
-# återställts och synkroniserats med GitHub. Ingen automatisk FTP vid push.
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - "deploy/grasas/index.html"
+      - "deploy/grasas/robots.txt"
+      - "deploy/grasas/sitemap.xml"
+      - "deploy/grasas/images/**"
+      - "scripts/build_grasas_logos.py"
+      - "scripts/deploy_grasas_ftps.py"
+      - ".github/workflows/deploy-grasas-ftps.yml"
   workflow_dispatch:
 
 permissions:
@@ -14,7 +23,7 @@ concurrency:
 
 jobs:
   deploy:
-    name: Bygg och ladda upp logotyper (skriv inte över sidan)
+    name: Bygg och publicera startsida och SEO-filer
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
@@ -53,3 +62,29 @@ jobs:
           FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
           FTP_REMOTE_DIR: ${{ vars.FTP_REMOTE_DIR }}
         run: python scripts/deploy_grasas_ftps.py
+
+      - name: Verifiera startsida, robots och sitemap på den publika domänen
+        shell: bash
+        run: |
+          set -euo pipefail
+          for file in "" "robots.txt" "sitemap.xml"; do
+            output="/tmp/grasas-${file:-index}.check"
+            curl --fail --silent --show-error --location \
+              --retry 4 --retry-delay 4 --max-time 30 \
+              "https://grasaskonsult.se/${file}" --output "$output"
+          done
+          grep -Fq 'rel="canonical" href="https://grasaskonsult.se/"' /tmp/grasas-index.check
+          if grep -qi 'noindex' /tmp/grasas-index.check; then
+            echo "::error::Skarpa startsidan innehåller noindex"
+            exit 1
+          fi
+          grep -Fq 'Sitemap: https://grasaskonsult.se/sitemap.xml' /tmp/grasas-robots.txt.check
+          grep -Fq '<loc>https://grasaskonsult.se/</loc>' /tmp/grasas-sitemap.xml.check
+          headers="$(curl --fail --silent --show-error --head \
+            --location --max-time 25 https://grasaskonsult.se/)"
+          if echo "$headers" | grep -Eiq '^x-robots-tag:.*noindex'; then
+            echo "::error::HTTP-header blockerar indexering"
+            exit 1
+          fi
+          echo "OK: HTTP, HTTPS, canonical, robots och sitemap kontrollerade."
+
