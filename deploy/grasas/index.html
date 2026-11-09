@@ -7,6 +7,8 @@
   <meta name="description" content="Göran Engström erbjuder personlig konsultverksamhet inom väg och trafik: väg- och sträckbedömningar, trafiksäkerhet, utredning och rådgivning.">
   <meta name="robots" content="noindex, nofollow">
   <title>Gräsås Konsult och Service AB | Göran Engström</title>
+  <link rel="icon" href="/images/grasas-symbol-svart.svg" type="image/svg+xml" media="(prefers-color-scheme: light)">
+  <link rel="icon" href="/images/grasas-symbol-vit.svg" type="image/svg+xml" media="(prefers-color-scheme: dark)">
   <style>
     :root{color-scheme:light;--ink:#111719;--ink2:#1b2427;--paper:#f7f6f2;--surface:#ffffff;--yellow:#f1bb2d;--text:#1d2527;--muted:#667071;--line:#d9dad5;--max:1180px}
     *{box-sizing:border-box}
@@ -17,10 +19,8 @@
     .site-header,.intro,.site-footer{background:var(--ink);color:var(--paper)}
     .site-header{border-bottom:1px solid #ffffff22}
     .site-header .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:94px}
-    .brand{display:flex;align-items:center;gap:17px;text-decoration:none}
-    .brand-icon{display:grid;place-items:center;width:49px;height:49px;border:1px solid #ffffff42;border-left:3px solid var(--yellow);font-size:21px;font-weight:760;letter-spacing:-.12em;padding-right:4px}
-    .brand-title{display:block;font-size:15px;font-weight:770;letter-spacing:.005em;line-height:1.35}
-    .brand-sub{display:block;color:#a7b0ae;font-size:11px;text-transform:uppercase;letter-spacing:.14em;margin-top:4px}
+    .brand{display:flex;align-items:center;min-width:0;text-decoration:none;flex-shrink:1}
+    .brand-logo{display:block;width:clamp(200px,23vw,268px);height:auto;max-width:100%}
     .top-link{font-size:14px;font-weight:670;text-decoration:none;border-bottom:1px solid var(--yellow);padding-bottom:5px;white-space:nowrap}
     .top-link:hover{color:var(--yellow)}
     .intro{overflow:hidden;position:relative}
@@ -75,7 +75,7 @@
     .site-footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:12px;color:#a8b2af;font-size:12px}
     .site-footer a{color:#b8c2bd;text-decoration:none}
     @media(max-width:970px){.hero{grid-template-columns:1fr;gap:0;padding-top:75px;padding-bottom:70px;min-height:0}.art{position:absolute;right:-150px;top:65px;opacity:.2;pointer-events:none;width:430px;min-height:360px}.art-label{display:none}.hero-copy{position:relative;z-index:1}.section-head{display:block}.section-head p{margin-top:19px;max-width:540px}.about-inner{gap:45px}.contact{padding:42px}}
-    @media(max-width:650px){.wrap{width:min(calc(100% - 38px),var(--max))}.site-header .wrap{min-height:76px}.brand{gap:12px}.brand-icon{width:43px;height:43px;font-size:19px}.brand-title{font-size:12px}.brand-sub{font-size:9px;letter-spacing:.09em}.top-link{font-size:12px}.hero{padding-top:70px;padding-bottom:78px}.eyebrow{font-size:10px;letter-spacing:.14em;margin-bottom:17px}h1{font-size:clamp(40px,10.7vw,60px);letter-spacing:-.055em}.hero-lead{font-size:16px;line-height:1.75;margin-bottom:30px}.actions{gap:17px}.button{min-height:52px}.link-quiet{font-size:13px}.services{padding:69px 0 75px}.section-head{margin-bottom:30px}.section-head h2{font-size:37px}.service-grid{grid-template-columns:1fr}.service{padding:28px;min-height:0}.service h3{margin-top:17px;font-size:21px}.about-inner{grid-template-columns:1fr;gap:24px;padding:64px 0}.about-copy p{font-size:16px}.contact-area{padding:48px 0 69px}.contact{grid-template-columns:1fr;gap:32px;padding:33px 28px}.contact-details{justify-self:start;min-width:0}.site-footer .wrap{align-items:flex-start;flex-direction:column;gap:4px}}
+    @media(max-width:650px){.wrap{width:min(calc(100% - 38px),var(--max))}.site-header .wrap{min-height:76px}.brand-logo{width:min(54vw,223px)}.top-link{font-size:12px}.hero{padding-top:70px;padding-bottom:78px}.eyebrow{font-size:10px;letter-spacing:.14em;margin-bottom:17px}h1{font-size:clamp(40px,10.7vw,60px);letter-spacing:-.055em}.hero-lead{font-size:16px;line-height:1.75;margin-bottom:30px}.actions{gap:17px}.button{min-height:52px}.link-quiet{font-size:13px}.services{padding:69px 0 75px}.section-head{margin-bottom:30px}.section-head h2{font-size:37px}.service-grid{grid-template-columns:1fr}.service{padding:28px;min-height:0}.service h3{margin-top:17px;font-size:21px}.about-inner{grid-template-columns:1fr;gap:24px;padding:64px 0}.about-copy p{font-size:16px}.contact-area{padding:48px 0 69px}.contact{grid-template-columns:1fr;gap:32px;padding:33px 28px}.contact-details{justify-self:start;min-width:0}.site-footer .wrap{align-items:flex-start;flex-direction:column;gap:4px}}
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.button{transition:none}}
   </style>
 </head>
@@ -83,9 +83,7 @@
   <header class="site-header">
     <div class="wrap">
       <a class="brand" href="#start" aria-label="Gräsås Konsult och Service AB, till toppen">
-        <!-- Tillfällig GK-markör. Ersätt med godkänd logotyp före publicering. -->
-        <span class="brand-icon" aria-hidden="true">GK</span>
-        <span><span class="brand-title">GRÄSÅS KONSULT<br>OCH SERVICE AB</span><span class="brand-sub">Göran Engström</span></span>
+        <img class="brand-logo" src="/images/grasas-full-vit.webp" alt="Gräsås Konsult och Service AB" width="1502" height="352" decoding="async">
       </a>
       <a class="top-link" href="tel:+46730710878">Ring Göran <span aria-hidden="true">↗</span></a>
     </div>
