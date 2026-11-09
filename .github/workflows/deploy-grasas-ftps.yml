@@ -1,0 +1,36 @@
+name: Publicera Gräsås startsida via FTPS
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "deploy/grasas/index.html"
+      - "scripts/deploy_grasas_ftps.py"
+      - ".github/workflows/deploy-grasas-ftps.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: grasas-inleed-ftps
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Ladda upp enbart index.html
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Hämta webbplatsfilen
+        uses: actions/checkout@v4
+
+      - name: Publicera krypterat via Inleed FTPS
+        env:
+          FTP_HOST: ${{ secrets.FTP_HOST }}
+          FTP_USERNAME: ${{ secrets.FTP_username }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          FTP_REMOTE_DIR: ${{ vars.FTP_REMOTE_DIR }}
+        run: python3 scripts/deploy_grasas_ftps.py
