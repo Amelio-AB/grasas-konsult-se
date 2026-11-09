@@ -25,7 +25,8 @@ ASSET_NAMES = (
 )
 # Webbplatsens nu godkända huvudversion finns i GitHub.
 # Ladda upp bilder och SEO-filer före index.html, utan att radera serverfiler.
-UPLOADS = tuple((SITE / "images" / name, f"images/{name}") for name in ASSET_NAMES) + (
+IMAGE_UPLOADS = tuple((SITE / "images" / name, f"images/{name}") for name in ASSET_NAMES)
+WEB_UPLOADS = (
     (SITE / "robots.txt", "robots.txt"),
     (SITE / "sitemap.xml", "sitemap.xml"),
     (SITE / "index.html", "index.html"),
@@ -92,7 +93,8 @@ def upload_with_curl(
         [
             "curl", "--fail", "--silent", "--show-error",
             "--ssl-reqd", "--ftp-pasv", "--ftp-skip-pasv-ip",
-            "--connect-timeout", "20", "--max-time", "120",
+            "--connect-timeout", "20", "--max-time", "90",
+            "--retry", "2", "--retry-delay", "4", "--retry-all-errors",
             "--user", f"{username}:{password}",
             "--upload-file", str(source), url,
         ],
@@ -115,7 +117,11 @@ def main() -> None:
     if host != "ns14.inleed.net" or username != f"ftp@{DOMAIN}":
         raise SystemExit("FTP-målet matchar inte Görans webbhotell. Inga filer ändrades.")
 
-    for local_file, _ in UPLOADS:
+    sync_images = os.environ.get("FTP_SYNC_IMAGES", "false").lower() == "true"
+    uploads = (IMAGE_UPLOADS if sync_images else ()) + WEB_UPLOADS
+    print(f"FTP: synka bilder: {sync_images}. Antal filer: {len(uploads)}")
+
+    for local_file, _ in uploads:
         if not local_file.is_file():
             raise SystemExit(f"Kan inte publicera: saknar {local_file}")
 
@@ -139,10 +145,11 @@ def main() -> None:
         ftp.prot_p()
         ftp.set_pasv(True)
         web_root = choose_web_root(ftp)
-        ensure_image_folder(ftp, web_root)
+        if sync_images:
+            ensure_image_folder(ftp, web_root)
 
         # Ladda upp bilder och SEO-filer först, själva startsidan sist.
-        for local_file, remote_path in UPLOADS:
+        for local_file, remote_path in uploads:
             upload_with_curl(host, username, password, web_root, local_file, remote_path)
 
         print("Publicering klar. Inga andra filer raderades.")
