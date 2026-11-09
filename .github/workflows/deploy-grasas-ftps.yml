@@ -1,15 +1,8 @@
-name: Publicera Gräsås startsida via FTPS
+name: Manuell Gräsås FTPS - logotypfiler
 
+# OBS: Manuell publicering tills innehållet i DirectAdmin har
+# återställts och synkroniserats med GitHub. Ingen automatisk FTP vid push.
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - "deploy/grasas/index.html"
-      - "deploy/grasas/images/**"
-      - "scripts/build_grasas_logos.py"
-      - "scripts/deploy_grasas_ftps.py"
-      - ".github/workflows/deploy-grasas-ftps.yml"
   workflow_dispatch:
 
 permissions:
@@ -21,7 +14,7 @@ concurrency:
 
 jobs:
   deploy:
-    name: Bygg och ladda upp hemsida och logotyper
+    name: Bygg och ladda upp logotyper (skriv inte över sidan)
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
