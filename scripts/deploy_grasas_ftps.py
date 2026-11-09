@@ -10,7 +10,8 @@ from __future__ import annotations
 
 import os
 import ssl
-from ftplib import FTP_TLS, error_perm
+from ftplib import FTP_TLS, error_perm, error_temp
+import subprocess
 from pathlib import Path
 
 LOCAL_FILE = Path("deploy/grasas/index.html")
@@ -62,6 +63,24 @@ def choose_web_root(ftp: FTP_TLS) -> str:
     )
 
 
+
+def upload_with_curl(host: str, username: str, password: str, remote_dir: str) -> None:
+    """libcurl återanvänder TLS-sessionen där servrar kräver det på datakanalen."""
+    url = f"ftp://{host}/{remote_dir.strip('/')}/index.html"
+    print("FTP: testar alternativ FTPS-datakanal med curl (fortfarande TLS-krypterad).")
+    subprocess.run(
+        [
+            "curl", "--fail", "--silent", "--show-error",
+            "--ssl-reqd", "--ftp-pasv", "--ftp-skip-pasv-ip",
+            "--connect-timeout", "20", "--max-time", "120",
+            "--user", f"{username}:{password}",
+            "--upload-file", str(LOCAL_FILE),
+            url,
+        ],
+        check=True,
+    )
+
+
 def main() -> None:
     host = required_secret("FTP_HOST")
     username = required_secret("FTP_USERNAME")
@@ -76,8 +95,13 @@ def main() -> None:
         ftp.prot_p()  # Kryptera även själva filöverföringen.
         ftp.set_pasv(True)
         remote_dir = choose_web_root(ftp)
-        with LOCAL_FILE.open("rb") as infile:
-            ftp.storbinary("STOR index.html", infile)
+        try:
+            with LOCAL_FILE.open("rb") as infile:
+                ftp.storbinary("STOR index.html", infile)
+        except error_temp as exc:
+            if not str(exc).startswith("425"):
+                raise
+            upload_with_curl(host, username, password, remote_dir)
         print(
             f"Uppladdning klar: {remote_dir.rstrip('/')}/index.html "
             f"({LOCAL_FILE.stat().st_size} byte). Inga andra filer ändrades."
