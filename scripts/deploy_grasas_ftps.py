@@ -15,7 +15,7 @@ import subprocess
 from pathlib import Path
 
 LOCAL_FILE = Path("deploy/grasas/index.html")
-DOMAIN = "gräsåskonsult.se"
+DOMAIN = "grasaskonsult.se"
 
 
 def required_secret(name: str) -> str:
