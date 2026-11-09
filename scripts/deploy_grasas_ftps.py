@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Publicera Gräsås startsida och logotyper till Inleed via krypterad FTPS.
+"""Publicera endast Gräsås logotyper till Inleed via krypterad FTPS.
 
 Filerna listas uttryckligen. Vi tar aldrig bort andra filer på webbhotellet.
 """
@@ -23,9 +23,9 @@ ASSET_NAMES = (
     "grasas-symbol-svart.svg",
     "grasas-symbol-svart.webp",
 )
-UPLOADS = tuple((SITE / "images" / name, f"images/{name}") for name in ASSET_NAMES) + (
-    (SITE / "index.html", "index.html"),
-)
+# Skydda redigeringar som gjorts direkt i Inleeds filhanterare.
+# Den här FTP-rutinen får ENDAST ladda upp logotypfiler, ALDRIG index.html.
+UPLOADS = tuple((SITE / "images" / name, f"images/{name}") for name in ASSET_NAMES)
 
 
 def required_secret(name: str) -> str:
@@ -123,7 +123,7 @@ def main() -> None:
         web_root = choose_web_root(ftp)
         ensure_image_folder(ftp, web_root)
 
-        # Ladda upp bilder först, och HTML sist, för att undvika brutna bildlänkar.
+        # Ladda upp enbart bilder; index.html på servern ska lämnas orörd.
         for local_file, remote_path in UPLOADS:
             upload_with_curl(host, username, password, web_root, local_file, remote_path)
 
