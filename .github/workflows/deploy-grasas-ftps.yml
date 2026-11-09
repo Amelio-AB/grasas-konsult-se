@@ -13,6 +13,12 @@ on:
       - "scripts/deploy_grasas_ftps.py"
       - ".github/workflows/deploy-grasas-ftps.yml"
   workflow_dispatch:
+    inputs:
+      sync_images:
+        description: "Uppdatera logotyper också?"
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -30,6 +36,20 @@ jobs:
     steps:
       - name: Hämta webbplatsfilen
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Avgör om logotyper behöver överföras
+        id: assets
+        shell: bash
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "sync_images=${{ inputs.sync_images }}" >> "$GITHUB_OUTPUT"
+          elif git diff --name-only HEAD^ HEAD | grep -Eq '^(deploy/grasas/images/|scripts/build_grasas_logos.py)'; then
+            echo "sync_images=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "sync_images=false" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Välj Python för bildgenerering
         uses: actions/setup-python@v6
@@ -37,6 +57,7 @@ jobs:
           python-version: "3.12"
 
       - name: Skapa WebP från transparenta SVG-original
+        if: steps.assets.outputs.sync_images == 'true'
         run: |
           python -m pip install --quiet --disable-pip-version-check "CairoSVG>=2.8,<3" "Pillow>=12,<13"
           python scripts/build_grasas_logos.py
@@ -61,6 +82,7 @@ jobs:
           FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
           FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
           FTP_REMOTE_DIR: ${{ vars.FTP_REMOTE_DIR }}
+          FTP_SYNC_IMAGES: ${{ steps.assets.outputs.sync_images }}
         run: python scripts/deploy_grasas_ftps.py
 
       - name: Verifiera startsida, robots och sitemap på den publika domänen
