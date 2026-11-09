@@ -6,6 +6,8 @@ on:
       - main
     paths:
       - "deploy/grasas/index.html"
+      - "deploy/grasas/images/**"
+      - "scripts/build_grasas_logos.py"
       - "scripts/deploy_grasas_ftps.py"
       - ".github/workflows/deploy-grasas-ftps.yml"
   workflow_dispatch:
@@ -19,13 +21,23 @@ concurrency:
 
 jobs:
   deploy:
-    name: Ladda upp enbart index.html
+    name: Bygg och ladda upp hemsida och logotyper
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
 
     steps:
       - name: Hämta webbplatsfilen
         uses: actions/checkout@v4
+
+      - name: Välj Python för bildgenerering
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Skapa WebP från transparenta SVG-original
+        run: |
+          python -m pip install --quiet --disable-pip-version-check "CairoSVG>=2.8,<3" "Pillow>=12,<13"
+          python scripts/build_grasas_logos.py
 
       - name: Kontrollera att rätt webbhotell används
         env:
@@ -47,4 +59,4 @@ jobs:
           FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
           FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
           FTP_REMOTE_DIR: ${{ vars.FTP_REMOTE_DIR }}
-        run: python3 scripts/deploy_grasas_ftps.py
+        run: python scripts/deploy_grasas_ftps.py
